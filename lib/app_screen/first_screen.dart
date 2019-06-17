@@ -7,7 +7,7 @@ class FirstScreen extends StatelessWidget
   Widget build(BuildContext context) {
 
     return Material(
-      color: Colors.cyanAccent,
+      color: Colors.lightBlue,
       child: Center(
         child:Text(
           randomNumber(),
