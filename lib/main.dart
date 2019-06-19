@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import './app_screen/home.dart';
 
+
 void main() {
   runApp(MaterialApp(
     title: "Exploring UI widget",
@@ -14,7 +15,7 @@ void main() {
 
 List<String> getListElements(){
 
-  var items= List<String>.generate(1000, (counter)=> "Item $counter");
+  var items= List<String>.generate(100, (counter)=> "Item $counter");
 
   return items;
 }
@@ -24,6 +25,7 @@ Widget getListView() {
   var listItems= getListElements();
 
   var listView = ListView.builder(
+      itemCount:listItems.length ,
    itemBuilder: (context,index){
 
      return ListTile(
