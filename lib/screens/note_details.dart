@@ -27,6 +27,13 @@ class NoteDetailState extends State<NoteDetail> {
     return Scaffold(
       appBar: AppBar(
         title: Text(appBarTitle),
+        leading: IconButton(icon: Icon(
+            Icons.arrow_back),
+            onPressed: () {
+              // Write some code to control things, when user press back button in AppBar
+              moveToLastScreen();
+            }
+        ),
       ),
       body: Padding(
         padding: EdgeInsets.only(top: 15.0, left: 10.0, right: 10.0),
@@ -130,4 +137,9 @@ class NoteDetailState extends State<NoteDetail> {
       ),
     );
   }
+  void moveToLastScreen() {
+    Navigator.pop(context);
+  }
 }
+
+

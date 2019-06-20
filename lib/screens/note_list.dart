@@ -68,3 +68,4 @@ class NoteListState extends State<NoteList> {
       return NoteDetail(title);
     }));
   }
+}
