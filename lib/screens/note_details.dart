@@ -1,17 +1,24 @@
 import 'package:flutter/material.dart';
 
 class NoteDetail extends StatefulWidget {
+
+  String appBarTitle;
+
+  NoteDetail(this.appBarTitle);
+
   @override
   State<StatefulWidget> createState() {
-    return NoteDetailState();
+    return NoteDetailState(this.appBarTitle);
   }
 }
 
 class NoteDetailState extends State<NoteDetail> {
   static var _priorities = ['High', 'Low'];
-
+  String appBarTitle;
   TextEditingController titleController = TextEditingController();
   TextEditingController descriptionController = TextEditingController();
+
+  NoteDetailState(this.appBarTitle);
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +26,7 @@ class NoteDetailState extends State<NoteDetail> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Edit Note'),
+        title: Text(appBarTitle),
       ),
       body: Padding(
         padding: EdgeInsets.only(top: 15.0, left: 10.0, right: 10.0),
