@@ -16,10 +16,11 @@ class FavoriteCity extends StatefulWidget {
 
 class _FavoriteCityState extends State<FavoriteCity> {
   String nameCity = "";
+  var _currencies = ['Rupees', 'Dollars', 'Pounds', 'Others'];
+  var _currentItemSelected = 'Dollars';
 
   @override
   Widget build(BuildContext context) {
-
     debugPrint("Favorite City widget is created");
 
     return Scaffold(
@@ -33,10 +34,23 @@ class _FavoriteCityState extends State<FavoriteCity> {
             TextField(
               onSubmitted: (String userInput) {
                 setState(() {
-                  debugPrint("set State is called, this tells framwork to redraw the FavCity widget");
+                  debugPrint(
+                      "set State is called, this tells framwork to redraw the FavCity widget");
                   nameCity = userInput;
                 });
               },
+            ),
+            DropdownButton<String>(
+              items: _currencies.map((String dropdownStringItem) {
+                return DropdownMenuItem<String>(
+                  value: dropdownStringItem,
+                  child: Text(dropdownStringItem),
+                );
+              }).toList(),
+              onChanged: (String newValueSelected) {
+                _onDropDownItemSelected(newValueSelected);
+              },
+              value: _currentItemSelected,
             ),
             Padding(
               padding: EdgeInsets.all(30.0),
@@ -49,5 +63,11 @@ class _FavoriteCityState extends State<FavoriteCity> {
         ),
       ),
     );
+  }
+
+  void _onDropDownItemSelected(String newValueSelected) {
+    setState(() {
+      this._currentItemSelected = newValueSelected;
+    });
   }
 }
