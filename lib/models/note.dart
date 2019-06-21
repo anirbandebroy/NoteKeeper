@@ -8,7 +8,7 @@ class Note{
 
   Note(this._title, this._date, this._priority, [this._description]);
 
-  Note.withId(this._id, this._title, this._date, this._priority, [this._description]);
+  Note.withId(this._id, this._title, this._date, this._priority, [this._description]);// Named constructor to create instance of DatabaseHelper
 
   //Get for variable
   int get id => _id;
