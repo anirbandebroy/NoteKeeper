@@ -1,6 +1,6 @@
 # NoteKeeper
 
-A new Flutter application.
+A new Flutter application Which will store the user note.This is a poc
 
 ## Getting Started
 
