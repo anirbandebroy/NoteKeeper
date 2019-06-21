@@ -17,6 +17,8 @@ class NoteDetail extends StatefulWidget {
 }
 
 class NoteDetailState extends State<NoteDetail> {
+  var _formKey = GlobalKey<FormState>();
+
   static var _priorities = ['High', 'Low'];
 
   DatabaseHelper helper = DatabaseHelper();
@@ -51,111 +53,124 @@ class NoteDetailState extends State<NoteDetail> {
                   moveToLastScreen();
                 }),
           ),
-          body: Padding(
-            padding: EdgeInsets.only(top: 15.0, left: 10.0, right: 10.0),
-            child: ListView(
-              children: <Widget>[
-                // First element
-                ListTile(
-                  title: DropdownButton(
-                      items: _priorities.map((String dropDownStringItem) {
-                        return DropdownMenuItem<String>(
-                          value: dropDownStringItem,
-                          child: Text(dropDownStringItem),
-                        );
-                      }).toList(),
-                      style: textStyle,
-                      value: getPriorityAsString(note.priority),
-                      onChanged: (valueSelectedByUser) {
-                        setState(() {
-                          debugPrint('User selected $valueSelectedByUser');
-                          updatePriorityAsInt(valueSelectedByUser);
-                        });
-                      }),
-                ),
-
-                // Second Element
-                Padding(
-                  padding: EdgeInsets.only(top: 15.0, bottom: 15.0),
-                  child: TextField(
-                    controller: titleController,
-                    style: textStyle,
-                    onChanged: (value) {
-                      debugPrint('Something changed in Title Text Field');
-                      updateTitle();
-                    },
-                    decoration: InputDecoration(
-                        labelText: 'Title',
-                        labelStyle: textStyle,
-                        border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(5.0))),
-                  ),
-                ),
-
-                // Third Element
-                Padding(
-                  padding: EdgeInsets.only(top: 15.0, bottom: 15.0),
-                  child: TextField(
-                    controller: descriptionController,
-                    style: textStyle,
-                    onChanged: (value) {
-                      debugPrint('Something changed in Description Text Field');
-                      updateDescription();
-                    },
-                    decoration: InputDecoration(
-                        labelText: 'Description',
-                        labelStyle: textStyle,
-                        border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(5.0))),
-                  ),
-                ),
-
-                // Fourth Element
-                Padding(
-                  padding: EdgeInsets.only(top: 15.0, bottom: 15.0),
-                  child: Row(
-                    children: <Widget>[
-                      Expanded(
-                        child: RaisedButton(
-                          color: Theme.of(context).primaryColorDark,
-                          textColor: Theme.of(context).primaryColorLight,
-                          child: Text(
-                            'Save',
-                            textScaleFactor: 1.5,
-                          ),
-                          onPressed: () {
+          body: Form(
+              key: _formKey,
+              child: Padding(
+                padding: EdgeInsets.only(top: 15.0, left: 10.0, right: 10.0),
+                child: ListView(
+                  children: <Widget>[
+                    // First element
+                    ListTile(
+                      title: DropdownButton(
+                          items: _priorities.map((String dropDownStringItem) {
+                            return DropdownMenuItem<String>(
+                              value: dropDownStringItem,
+                              child: Text(dropDownStringItem),
+                            );
+                          }).toList(),
+                          style: textStyle,
+                          value: getPriorityAsString(note.priority),
+                          onChanged: (valueSelectedByUser) {
                             setState(() {
-                              debugPrint("Save button clicked");
-                              _save();
+                              debugPrint('User selected $valueSelectedByUser');
+                              updatePriorityAsInt(valueSelectedByUser);
                             });
-                          },
-                        ),
+                          }),
+                    ),
+
+                    // Second Element
+                    Padding(
+                      padding: EdgeInsets.only(top: 15.0, bottom: 15.0),
+                      child: TextFormField(
+                        controller: titleController,
+                        style: textStyle,
+                        validator: (value) {
+                          if (value.isEmpty) {
+                            return 'Please enter title';
+                          } else {
+                            updateTitle();
+                          }
+                        },
+                        decoration: InputDecoration(
+                            labelText: 'Title',
+                            labelStyle: textStyle,
+                            errorStyle: TextStyle(
+                                color: Colors.redAccent, fontSize: 15.0),
+                            border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(5.0))),
                       ),
-                      Container(
-                        width: 5.0,
+                    ),
+
+                    // Third Element
+                    Padding(
+                      padding: EdgeInsets.only(top: 15.0, bottom: 15.0),
+                      child: TextFormField(
+                        controller: descriptionController,
+                        style: textStyle,
+                        validator: (value) {
+                          if (value.isEmpty) {
+                            return 'Please description';
+                          } else {
+                            updateDescription();
+                          }
+                        },
+                        decoration: InputDecoration(
+                            labelText: 'Description',
+                            labelStyle: textStyle,
+                            errorStyle: TextStyle(
+                                color: Colors.redAccent, fontSize: 15.0),
+                            border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(5.0))),
                       ),
-                      Expanded(
-                        child: RaisedButton(
-                          color: Theme.of(context).primaryColorDark,
-                          textColor: Theme.of(context).primaryColorLight,
-                          child: Text(
-                            'Delete',
-                            textScaleFactor: 1.5,
+                    ),
+
+                    // Fourth Element
+                    Padding(
+                      padding: EdgeInsets.only(top: 15.0, bottom: 15.0),
+                      child: Row(
+                        children: <Widget>[
+                          Expanded(
+                            child: RaisedButton(
+                              color: Theme.of(context).primaryColorDark,
+                              textColor: Theme.of(context).primaryColorLight,
+                              child: Text(
+                                'Save',
+                                textScaleFactor: 1.5,
+                              ),
+                              onPressed: () {
+                                setState(() {
+                                  if (_formKey.currentState.validate()) {
+                                    _save();
+                                  }
+                                });
+                              },
+                            ),
                           ),
-                          onPressed: () {
-                            setState(() {
-                              debugPrint("Delete button clicked");
-                              _delete();
-                            });
-                          },
-                        ),
+                          Container(
+                            width: 5.0,
+                          ),
+                          Expanded(
+                            child: RaisedButton(
+                              color: Theme.of(context).primaryColorDark,
+                              textColor: Theme.of(context).primaryColorLight,
+                              child: Text(
+                                'Delete',
+                                textScaleFactor: 1.5,
+                              ),
+                              onPressed: () {
+                                setState(() {
+                                  debugPrint("Delete button clicked");
+                                  _delete();
+                                });
+                              },
+                            ),
+                          ),
+                        ],
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
-              ],
-            ),
-          ),
+              )),
         ));
   }
 
