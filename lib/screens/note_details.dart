@@ -106,6 +106,7 @@ class NoteDetailState extends State<NoteDetail> {
                       padding: EdgeInsets.only(top: 15.0, bottom: 15.0),
                       child: TextFormField(
                         controller: descriptionController,
+                        maxLines: 5,
                         style: textStyle,
                         validator: (value) {
                           if (value.isEmpty) {
